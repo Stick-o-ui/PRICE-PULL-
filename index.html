@@ -1,13 +1,13 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Claim Your Money</title>
-    
+
     <!-- Horror Font -->
     <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
-    
+
     <style>
         * {
             margin: 0;
@@ -30,47 +30,7 @@
             font-family: 'Creepster', cursive;
         }
 
-        /* Loading Screen */
-        .loading-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: black;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
-
-        .loading-text {
-            font-size: 40px;
-            text-shadow: 0 0 10px red;
-        }
-
-        .progress-container {
-            width: 250px;
-            height: 30px;
-            border: 2px solid red;
-            background: black;
-            margin-top: 20px;
-        }
-
-        .progress-bar {
-            width: 0%;
-            height: 100%;
-            background: red;
-            transition: width 2s linear;
-        }
-
         /* Main Content */
-        .main-content {
-            display: none;
-            text-align: center;
-        }
-
         .box {
             background-color: rgba(0, 0, 0, 0.8);
             padding: 30px;
@@ -79,6 +39,7 @@
             max-width: 500px;
             box-shadow: 0 0 20px red;
             border: 2px solid red;
+            text-align: center;
         }
 
         h1 {
@@ -91,6 +52,19 @@
             text-shadow: 0 0 5px red;
         }
 
+        /* Fake Bank Card */
+        .fake-card {
+            background: black;
+            color: red;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 10px;
+            font-size: 20px;
+            box-shadow: 0 0 15px red;
+            border: 2px solid red;
+        }
+
+        /* Button */
         .btn {
             background-color: red;
             color: black;
@@ -107,78 +81,48 @@
             background-color: darkred;
         }
 
-        /* Small Fake Bank Card */
-        .fake-card {
-            background: black;
-            color: red;
-            padding: 15px;
+        /* Countdown Text */
+        .countdown {
+            font-size: 25px;
             margin-top: 15px;
-            border-radius: 10px;
-            font-size: 20px;
-            box-shadow: 0 0 15px red;
-            border: 2px solid red;
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- LOADING SCREEN -->
-    <div class="loading-screen">
-        <div class="loading-text" id="loading-text">LOADING...</div>
-        <div class="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
+    <div class="box">
+        <h1>CONGRATULATIONS!</h1>
+        <p>You have been selected to claim <b>₱2,000,000.00</b></p>
+        <p>Click the button below to claim your reward.</p>
+
+        <div class="fake-card">
+            <p>🏦 Bank: **SCARY BANK**</p>
+            <p>💳 Account No: 6666-XXXX-XXXX</p>
+            <p>💰 Amount: ₱2,000,000.00</p>
         </div>
-        <div class="loading-text" id="loading-status">0%</div>
-    </div>
 
-    <!-- MAIN CONTENT -->
-    <div class="main-content">
-        <div class="box">
-            <h1>CONGRATULATIONS!</h1>
-            <p>You have been selected to claim <b>₱2,000,000.00</b></p>
-            <p>Please enter your details to proceed.</p>
-
-            <div class="fake-card">
-                <p>🏦 Bank: **SCARY BANK**</p>
-                <p>💳 Account No: 6666-XXXX-XXXX</p>
-                <p>💰 Amount: ₱2,000,000.00</p>
-            </div>
-
-            <button class="btn" onclick="claimMoney()">CLAIM NOW</button>
-        </div>
+        <button class="btn" onclick="startCountdown()">CLAIM NOW</button>
+        <p class="countdown" id="countdown-text"></p>
     </div>
 
     <script>
-        let progress = 0;
-        let progressBar = document.getElementById("progress-bar");
-        let loadingText = document.getElementById("loading-text");
-        let loadingStatus = document.getElementById("loading-status");
+        function startCountdown() {
+            let countdown = 5; // 5-second wait
+            let countdownText = document.getElementById("countdown-text");
+            countdownText.style.display = "block";
+            countdownText.innerText = "Processing... Please wait " + countdown + " seconds";
 
-        function updateProgress() {
-            if (progress < 100) {
-                progress += 1;
-                progressBar.style.width = progress + "%";
-                loadingStatus.innerText = progress + "%";
-                setTimeout(updateProgress, 20);
-            } else {
-                loadingText.innerText = "WELCOME TO THE CLAIM CENTER";
-                loadingStatus.innerText = "Loading Complete!";
-
-                setTimeout(() => {
-                    document.querySelector(".loading-screen").style.display = "none";
-                    document.querySelector(".main-content").style.display = "block";
-                }, 1000);
-            }
+            let timer = setInterval(() => {
+                countdown--;
+                countdownText.innerText = "Processing... Please wait " + countdown + " seconds";
+                
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    window.location.href = "https://stick-o-ui.github.io/CLAIMPRICE/"; // Replace with actual link
+                }
+            }, 1000);
         }
-
-        function claimMoney() {
-            alert("Processing Transaction... Please wait.");
-            setTimeout(() => {
-                window.location.href = "https://stick-o-ui.github.io/CLAIMPRICE/"; // Replace with actual claim link
-            }, 3000);
-        }
-
-        updateProgress();
     </script>
 
 </body>
